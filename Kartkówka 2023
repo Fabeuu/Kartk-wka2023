@@ -1,0 +1,48 @@
+public partial class MainWindow : Window
+    {
+        Properties.Settings Ustawienia = Properties.Settings.Default;
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            // Odczytanie roku z zapisu
+            int Rok = Ustawienia.Rok;
+
+            // Nowa zmienna string z inta Rok
+            string RokWStringu = Rok.ToString();
+
+            // Ustawienie wartości TextBox na napis "Rok to: " oraz wartości roku
+            TextBox.Text = $"Zapisana wartość Rok to: {RokWStringu}";
+
+            // Przypisanie koloru do zmiennej kolor
+            Color kolor = Color.FromRgb(
+                    (byte)0,
+                    (byte)255,
+                    (byte)0);
+
+            // Ustawienie tła TextBox na wartość zmiennej kolor
+            PrzyciskZapisu.Background = new SolidColorBrush(kolor);
+        }
+
+        private void ZapiszRok(object sender, RoutedEventArgs e) {
+            // Ustawienie zmiennej ustawień roku na wartość int TextBoxa
+            Ustawienia.Rok = int.Parse(TextBox.Text);
+
+            // Wywołanie wbudowanej w ustawienia funkcji zapisania
+            Ustawienia.Save();
+        }
+
+        // Wywołuje się gdy przycisk jest naciśnięty
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Sprawdza czy przycisk to jest escape
+            if(e.Key == Key.Escape)
+            {
+                // Jeśli tak to zamyka aplikacje wbudowana
+                Close();
+            }
+        }
+    }
+xaml:
+        <TextBox x:Name="TextBox" HorizontalAlignment="Center" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center" Width="120"/>
+        <Button x:Name="PrzyciskZapisu" Content="Zapisz" HorizontalAlignment="Center" Margin="0,256,0,0" VerticalAlignment="Top" Click="ZapiszRok"/>
